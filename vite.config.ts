@@ -44,6 +44,7 @@ export default defineConfig(({ mode }) => {
         insertTypesEntry: true,
         outDir: path.resolve(__dirname, 'dist'),
         exclude: ['src/app-public'],
+        tsconfigPath: path.resolve(__dirname, 'src/app-public/tsconfig.json'),
       }),
     ],
 

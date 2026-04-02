@@ -15,6 +15,7 @@ import { TRodzajFaktury } from '../../../shared/consts/const';
 import { Fa, FP } from '../../types/fa3.types';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum';
 import { addMarza } from '../common/Wiersze';
+import { t } from '../../../shared/i18n';
 
 export function generateWiersze(faVat: Fa): Content {
   const table: Content[] = [];
@@ -31,48 +32,48 @@ export function generateWiersze(faVat: Fa): Content {
     }
   );
   const definedHeaderLp: HeaderDefine[] = [
-    { name: 'NrWierszaFa', title: 'Lp.', format: FormatTyp.Default, width: 'auto' },
+    { name: 'NrWierszaFa', title: t('wiersze.lp'), format: FormatTyp.Default, width: 'auto' },
   ];
   const definedHeader1: HeaderDefine[] = [
-    { name: 'UU_ID', title: 'Unikalny numer wiersza', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_7', title: 'Nazwa towaru lub usługi', format: FormatTyp.Default, width: '*' },
-    { name: 'P_9A', title: 'Cena jedn. netto', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'P_9B', title: 'Cena jedn. brutto', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'P_8B', title: 'Ilość', format: FormatTyp.Number, width: 'auto' },
-    { name: 'P_8A', title: 'Miara', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_10', title: 'Rabat', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'P_12', title: 'Stawka podatku', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_12_XII', title: 'Stawka podatku OSS', format: FormatTyp.Percentage, width: 'auto' },
+    { name: 'UU_ID', title: t('wiersze.unikalnyNumer'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_7', title: t('wiersze.nazwaTowaru'), format: FormatTyp.Default, width: '*' },
+    { name: 'P_9A', title: t('wiersze.cenaJednostkaNetto'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_9B', title: t('wiersze.cenaJednostkaBrutto'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_8B', title: t('wiersze.ilosc'), format: FormatTyp.Number, width: 'auto' },
+    { name: 'P_8A', title: t('wiersze.miara'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_10', title: t('wiersze.rabat'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_12', title: t('wiersze.stawkaPodatku'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_12_XII', title: t('wiersze.stawkaPodatkuOSS'), format: FormatTyp.Percentage, width: 'auto' },
     {
       name: 'P_12_Zal_15',
-      title: 'Znacznik dla towaru lub usługi z zał. nr 15 do ustawy',
+      title: t('wiersze.znacznikZal15'),
       format: FormatTyp.Default,
       width: 'auto',
     },
-    { name: 'P_11', title: 'Wartość sprzedaży netto', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'P_11A', title: 'Wartość sprzedaży brutto', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'P_11Vat', title: 'Wartość sprzedaży vat', format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_11', title: t('wiersze.wartoscNetto'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_11A', title: t('wiersze.wartoscBrutto'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'P_11Vat', title: t('wiersze.wartoscVat'), format: FormatTyp.Currency, width: 'auto' },
   ];
 
   if (getDifferentColumnsValue('KursWaluty', faWiersze).length !== 1) {
     definedHeader1.push({
       name: 'KursWaluty',
-      title: 'Kurs waluty',
+      title: t('wiersze.kursWaluty'),
       format: FormatTyp.Currency6,
       width: 'auto',
     });
   }
-  definedHeader1.push({ name: 'StanPrzed', title: 'Stan przed', format: FormatTyp.Boolean, width: 'auto' });
+  definedHeader1.push({ name: 'StanPrzed', title: t('wiersze.stanPrzed'), format: FormatTyp.Boolean, width: 'auto' });
   const definedHeader2: HeaderDefine[] = [
-    { name: 'GTIN', title: 'GTIN', format: FormatTyp.Default, width: 'auto' },
-    { name: 'PKWiU', title: 'PKWiU', format: FormatTyp.Default, width: 'auto' },
-    { name: 'CN', title: 'CN', format: FormatTyp.Default, width: 'auto' },
-    { name: 'PKOB', title: 'PKOB', format: FormatTyp.Default, width: 'auto' },
-    { name: 'KwotaAkcyzy', title: 'KwotaAkcyzy', format: FormatTyp.Default, width: 'auto' },
-    { name: 'GTU', title: 'GTU', format: FormatTyp.Default, width: 'auto' },
-    { name: 'Procedura', title: 'Procedura', format: FormatTyp.Default, width: '*' },
-    { name: 'P_6A', title: 'Data dostawy / wykonania', format: FormatTyp.Default, width: 'auto' },
-    { name: 'Indeks', title: 'Indeks', format: FormatTyp.Default, width: 'auto' },
+    { name: 'GTIN', title: t('wiersze.gtin'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'PKWiU', title: t('wiersze.pkwiu'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'CN', title: t('wiersze.cn'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'PKOB', title: t('wiersze.pkob'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'KwotaAkcyzy', title: t('wiersze.kwotaAkcyzy'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'GTU', title: t('wiersze.gtu'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'Procedura', title: t('wiersze.procedura'), format: FormatTyp.Default, width: '*' },
+    { name: 'P_6A', title: t('wiersze.dataDostawy'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'Indeks', title: t('wiersze.indeks'), format: FormatTyp.Default, width: 'auto' },
   ];
   let content = getContentTable<(typeof faWiersze)[0]>(
     [...definedHeaderLp, ...definedHeader1, ...definedHeader2],
@@ -80,7 +81,7 @@ export function generateWiersze(faVat: Fa): Content {
     'auto'
   );
   const ceny = formatText(
-    `Faktura wystawiona w cenach ${content.fieldsWithValue.includes('P_11') ? 'netto' : 'brutto'} w walucie ${faVat.KodWaluty?._text}`,
+    t('wiersze.fakturaWCenach', { ceny: content.fieldsWithValue.includes('P_11') ? t('szczegoly.netto') : t('szczegoly.brutto'), waluta: faVat.KodWaluty?._text ?? '' }),
     [FormatTyp.Label, FormatTyp.MarginBottom8]
   );
 
@@ -90,7 +91,7 @@ export function generateWiersze(faVat: Fa): Content {
   if (rodzajFaktury == TRodzajFaktury.ROZ && Number(p_15) !== 0) {
     opis = {
       stack: createLabelTextArray([
-        { value: 'Kwota pozostała do zapłaty: ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('wiersze.kwotaPozostala'), formatTyp: FormatTyp.LabelGreater },
         {
           value: p_15,
           formatTyp: FormatTyp.CurrencyGreater,
@@ -109,7 +110,7 @@ export function generateWiersze(faVat: Fa): Content {
   ) {
     opis = {
       stack: createLabelTextArray([
-        { value: 'Kwota należności ogółem: ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('wiersze.kwotaNaleznosci'), formatTyp: FormatTyp.LabelGreater },
         {
           value: p_15,
           formatTyp: [FormatTyp.CurrencyGreater, FormatTyp.HeaderContent, FormatTyp.Value],
@@ -136,5 +137,5 @@ export function generateWiersze(faVat: Fa): Content {
   if (table.length < 1) {
     return [];
   }
-  return createSection([...createHeader('Pozycje'), ceny, ...table, opis], true);
+  return createSection([...createHeader(t('wiersze.header')), ceny, ...table, opis], true);
 }

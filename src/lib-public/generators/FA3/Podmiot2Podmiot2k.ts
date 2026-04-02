@@ -14,24 +14,25 @@ import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
 import { generateCorrectedContent } from '../FA2/Podmiot2Podmiot2k';
 import { generateAdres } from '../FA2/Adres';
 import { generateDaneIdentyfikacyjneTPodmiot2Dto } from '../FA2/PodmiotDaneIdentyfikacyjneTPodmiot2Dto';
+import { t } from '../../../shared/i18n';
 
 export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot2K): Content[] {
   const result: Content[] = [];
 
   result.push(generateLine());
-  result.push(createHeader('Nabywca'));
+  result.push(createHeader(t('podmiot2.nabywca')));
   let firstColumn: Content[] = [];
   let secondColumn: Content[] = [];
 
-  firstColumn.push(createHeader('Dane identyfikacyjne'), createLabelText('Numer EORI: ', podmiot2.NrEORI));
+  firstColumn.push(createHeader(t('podmiot2.daneIdentyfikacyjne')), createLabelText(t('podmiot2.numerEori'), podmiot2.NrEORI));
   if (podmiot2.DaneIdentyfikacyjne) {
     firstColumn.push(...generateDaneIdentyfikacyjneTPodmiot2Dto(podmiot2.DaneIdentyfikacyjne));
   }
 
   if (podmiot2.DaneKontaktowe) {
-    firstColumn.push(formatText('Dane kontaktowe', [FormatTyp.Label, FormatTyp.LabelMargin]));
+    firstColumn.push(formatText(t('podmiot2.daneKontaktowe'), [FormatTyp.Label, FormatTyp.LabelMargin]));
     if (podmiot2.NrKlienta) {
-      firstColumn.push(createLabelText('Numer klienta: ', podmiot2.NrKlienta));
+      firstColumn.push(createLabelText(t('podmiot2.numerKlienta'), podmiot2.NrKlienta));
     }
     firstColumn.push(generateDaneKontaktowe(getTable(podmiot2.DaneKontaktowe)));
   }
@@ -44,13 +45,13 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
   }
 
   if (podmiot2K.DaneIdentyfikacyjne) {
-    firstColumn = generateCorrectedContent(podmiot2K, 'Treść korygowana');
-    secondColumn = generateCorrectedContent(podmiot2, 'Treść korygująca');
+    firstColumn = generateCorrectedContent(podmiot2K, t('podmiot2.trescKorygowana'));
+    secondColumn = generateCorrectedContent(podmiot2, t('podmiot2.trescKorygujaca'));
   }
 
   if (podmiot2.AdresKoresp) {
     secondColumn.push(
-      formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(t('podmiot2.adresKorespondencyjny'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       generateAdres(podmiot2.AdresKoresp)
     );
   }

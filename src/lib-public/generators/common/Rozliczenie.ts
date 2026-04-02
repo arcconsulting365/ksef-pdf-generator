@@ -15,6 +15,7 @@ import { Rozliczenie as Rozliczenie1, Zenia } from '../../types/fa1.types';
 import { Rozliczenie as Rozliczenie2, Rozliczenie as Rozliczenie3 } from '../../types/fa2.types';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum';
 import { FormContentState } from '../../../shared/types/additional-data.types';
+import { t } from '../../../shared/i18n';
 
 export function generateRozliczenie(
   rozliczenie: Rozliczenie1 | Rozliczenie2 | Rozliczenie3 | undefined,
@@ -28,12 +29,12 @@ export function generateRozliczenie(
   const result: Content[] = [];
   const headerOdliczenia: HeaderDefine[] = [
     {
-      title: 'Powód odliczenia',
+      title: t('rozliczenie.powodOdliczenia'),
       name: 'Powod',
       format: FormatTyp.Default,
     },
     {
-      title: 'Kwota odliczenia',
+      title: t('rozliczenie.kwotaOdliczenia'),
       name: 'Kwota',
       format: FormatTyp.Currency,
     },
@@ -41,12 +42,12 @@ export function generateRozliczenie(
   const headerObciazenia: HeaderDefine[] = [
     {
       name: 'Powod',
-      title: 'Powód obciążenia',
+      title: t('rozliczenie.powodObciazenia'),
       format: FormatTyp.Default,
     },
     {
       name: 'Kwota',
-      title: 'Kwota obciążenia',
+      title: t('rozliczenie.kwotaObciazenia'),
       format: FormatTyp.Currency,
     },
   ];
@@ -65,7 +66,7 @@ export function generateRozliczenie(
     20
   );
   const SumaObciazen: Content[] = createLabelText(
-    'Suma kwot obciążenia: ',
+    t('rozliczenie.sumaObciazen'),
     rozliczenie.SumaObciazen,
     FormatTyp.Currency,
     {
@@ -73,7 +74,7 @@ export function generateRozliczenie(
     }
   );
   const Sumaodliczen: Content[] = createLabelText(
-    'Suma kwot odliczenia: ',
+    t('rozliczenie.sumaOdliczen'),
     rozliczenie?.SumaOdliczen,
     FormatTyp.Currency,
     {
@@ -81,17 +82,17 @@ export function generateRozliczenie(
     }
   );
   const resultObciazenia: (ContentTable | Content[])[] = [
-    createSubHeader('Obciążenia'),
+    createSubHeader(t('rozliczenie.obciazenia')),
     tableObciazenia.content ?? [],
     SumaObciazen,
   ];
   const resultOdliczenia: (ContentTable | Content[])[] = [
-    createSubHeader('Odliczenia'),
+    createSubHeader(t('rozliczenie.odliczenia')),
     tableOdliczenia.content ?? [],
     Sumaodliczen,
   ];
 
-  result.push(createHeader('Rozliczenie', [0, 8, 0, 4]));
+  result.push(createHeader(t('rozliczenie.header'), [0, 8, 0, 4]));
   if (obciazenia.length > 0 && odliczenia.length > 0) {
     result.push(generateColumns([resultObciazenia, resultOdliczenia]));
   } else if (obciazenia.length > 0) {
@@ -103,7 +104,7 @@ export function generateRozliczenie(
   if (rozliczenie?.DoZaplaty?._text) {
     result.push({
       stack: createLabelTextArray([
-        { value: 'Do zapłaty: ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('rozliczenie.doZaplaty'), formatTyp: FormatTyp.LabelGreater },
         { value: rozliczenie?.DoZaplaty, formatTyp: FormatTyp.CurrencyGreater, currency: KodWaluty },
       ]),
       alignment: Position.RIGHT,
@@ -112,7 +113,7 @@ export function generateRozliczenie(
   } else if (rozliczenie?.DoRozliczenia?._text) {
     result.push({
       stack: createLabelTextArray([
-        { value: 'Do rozliczenia: ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('rozliczenie.doRozliczenia'), formatTyp: FormatTyp.LabelGreater },
         { value: rozliczenie?.DoRozliczenia, formatTyp: FormatTyp.CurrencyGreater, currency: KodWaluty },
       ]),
       alignment: Position.RIGHT,

@@ -6,13 +6,14 @@ import { generateAdres } from './Adres';
 import { generateDaneIdentyfikacyjneTPodmiot2Dto } from './PodmiotDaneIdentyfikacyjneTPodmiot2Dto';
 import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
 import { DaneIdentyfikacyjneTPodmiot2Dto } from '../../types/fa2-additional-types';
+import { t } from '../../../shared/i18n';
 
 export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
-  const result: Content[] = createHeader('Nabywca');
+  const result: Content[] = createHeader(t('podmiot2.nabywca'));
 
   result.push(
-    createLabelText('Identyfikator nabywcy: ', podmiot2.IDNabywcy),
-    createLabelText('Numer EORI: ', podmiot2.NrEORI)
+    createLabelText(t('podmiot2.identyfikatorNabywcy'), podmiot2.IDNabywcy),
+    createLabelText(t('podmiot2.numerEori'), podmiot2.NrEORI)
   );
   if (podmiot2.DaneIdentyfikacyjne) {
     result.push(
@@ -23,19 +24,19 @@ export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
   }
 
   if (podmiot2.Adres) {
-    result.push(formatText('Adres', [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot2.Adres));
+    result.push(formatText(t('podmiot2.adres'), [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot2.Adres));
   }
   if (podmiot2.AdresKoresp) {
     result.push(
-      formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(t('podmiot2.adresKorespondencyjny'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateAdres(podmiot2.AdresKoresp)
     );
   }
   if (podmiot2.DaneKontaktowe || podmiot2.NrKlienta) {
     result.push(
-      formatText('Dane kontaktowe', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(t('podmiot2.daneKontaktowe'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateDaneKontaktowe(podmiot2.DaneKontaktowe ?? []),
-      createLabelText('Numer klienta: ', podmiot2.NrKlienta)
+      createLabelText(t('podmiot2.numerKlienta'), podmiot2.NrKlienta)
     );
 
     const daneKontaktowe = getTable(podmiot2.DaneKontaktowe);
@@ -43,14 +44,14 @@ export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
     if (daneKontaktowe.length) {
       result.push(
         createLabelText(
-          'Faktura dotyczy jednostki podrzędnej JST: ',
-          daneKontaktowe[0].JST?._text === '1' ? 'TAK' : 'NIE'
+          t('podmiot2.fakturaJST'),
+          daneKontaktowe[0].JST?._text === '1' ? t('common.tak') : t('common.nie')
         )
       );
       result.push(
         createLabelText(
-          'Faktura dotyczy członka grupy GV: ',
-          daneKontaktowe[0].GV?._text === '1' ? 'TAK' : 'NIE'
+          t('podmiot2.fakturaGV'),
+          daneKontaktowe[0].GV?._text === '1' ? t('common.tak') : t('common.nie')
         )
       );
     }

@@ -1,6 +1,7 @@
 import express from 'express';
 import { setupPolyfills } from './polyfills';
 import { generatePdfFromData } from './generate-pdf';
+import { setInvoiceLang } from '../shared/i18n';
 
 setupPolyfills();
 
@@ -30,11 +31,13 @@ app.use((req, res, next) => {
 
 app.post('/api/generate', async (req, res) => {
   try {
-    const { xml, nrKSeF, qrCode, qrCode2, isMobile } = req.body;
+    const { xml, nrKSeF, qrCode, qrCode2, isMobile, lang } = req.body;
 
     if (!xml) {
       return res.status(400).json({ error: 'Missing xml parameter' });
     }
+
+    setInvoiceLang(lang ?? 'pl');
 
     const buffer = await generatePdfFromData({
       xmlContent: xml,

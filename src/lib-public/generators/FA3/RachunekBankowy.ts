@@ -10,6 +10,7 @@ import {
 import FormatTyp from '../../../shared/enums/common.enum';
 import { RachunekBankowy } from '../../types/fa3.types';
 import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions';
+import { t } from '../../../shared/i18n';
 
 export const generujRachunekBankowy = (accounts?: RachunekBankowy[], title?: string): Content[] => {
   const result: Content[] = [];
@@ -26,19 +27,19 @@ export const generujRachunekBankowy = (accounts?: RachunekBankowy[], title?: str
     );
 
     table.push([
-      formatText('Pełny numer rachunku', FormatTyp.GrayBoldTitle),
+      formatText(t('rachunekBankowy.pelnyNumer'), FormatTyp.GrayBoldTitle),
       formatText(getValue(account.NrRB), FormatTyp.Default),
     ]);
     table.push([
-      formatText('Kod SWIFT', FormatTyp.GrayBoldTitle),
+      formatText(t('rachunekBankowy.kodSwift'), FormatTyp.GrayBoldTitle),
       formatText(getValue(account.SWIFT), FormatTyp.Default),
     ]);
     table.push([
-      formatText('Rachunek własny banku', FormatTyp.GrayBoldTitle),
+      formatText(t('rachunekBankowy.rachunekWlasnyBanku'), FormatTyp.GrayBoldTitle),
       formatText(makeBreakable(getTypRachunkowWlasnych(account.RachunekWlasnyBanku), 20), FormatTyp.Default),
     ]);
     table.push([
-      formatText('Nazwa banku', FormatTyp.GrayBoldTitle),
+      formatText(t('rachunekBankowy.nazwaBanku'), FormatTyp.GrayBoldTitle),
       formatText(
         hasValue(account.NazwaBanku)
           ? makeBreakable(getValue(account.NazwaBanku), 20)
@@ -47,7 +48,7 @@ export const generujRachunekBankowy = (accounts?: RachunekBankowy[], title?: str
       ),
     ]);
     table.push([
-      formatText('Opis rachunku', FormatTyp.GrayBoldTitle),
+      formatText(t('rachunekBankowy.opisRachunku'), FormatTyp.GrayBoldTitle),
       formatText(
         hasValue(account.OpisRachunku)
           ? makeBreakable(getValue(account.OpisRachunku), 20)

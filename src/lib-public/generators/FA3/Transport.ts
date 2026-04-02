@@ -18,6 +18,7 @@ import {
 } from '../../../shared/generators/common/functions';
 import { generatePrzewoznik } from './Przewoznik';
 import FormatTyp from '../../../shared/enums/common.enum';
+import { t } from '../../../shared/i18n';
 
 export function generateTransport(transport: Transport, index?: number | null): Content {
   const table: Content[] = [];
@@ -29,61 +30,61 @@ export function generateTransport(transport: Transport, index?: number | null): 
     wysylkaPrzez: [] as Content[],
   };
 
-  table.push(createHeader(index ? `Transport ${index}` : 'Transport'));
+  table.push(createHeader(index ? t('transport.headerIndex', { index }) : t('transport.header')));
   if (transport.RodzajTransportu?._text) {
     columns.transport.push(
-      createLabelText('Rodzaj transportu: ', getRodzajTransportuString(transport.RodzajTransportu))
+      createLabelText(t('transport.rodzajTransportu'), getRodzajTransportuString(transport.RodzajTransportu))
     );
   } else if (transport.TransportInny?._text == '1' && transport.OpisInnegoTransportu?._text) {
-    columns.transport.push(createLabelText('Rodzaj transportu: ', 'Transport inny'));
+    columns.transport.push(createLabelText(t('transport.rodzajTransportu'), t('transport.transportInny')));
     columns.transport.push(
-      createLabelText('Opis innego rodzaju transportu: ', transport.OpisInnegoTransportu)
+      createLabelText(t('transport.opisInnegoTransportu'), transport.OpisInnegoTransportu)
     );
   }
-  columns.dane.push(createLabelText('Numer zlecenia transportu: ', transport.NrZleceniaTransportu));
+  columns.dane.push(createLabelText(t('transport.numerZlecenia'), transport.NrZleceniaTransportu));
   if (hasValue(transport.OpisLadunku)) {
-    columns.dane.push(createLabelText('Opis ładunku: ', getOpisTransportuString(transport.OpisLadunku)));
+    columns.dane.push(createLabelText(t('transport.opisLadunku'), getOpisTransportuString(transport.OpisLadunku)));
     if (transport.LadunekInny?._text === '1' && transport.OpisInnegoLadunku?._text) {
-      columns.dane.push(createLabelText('Opis ładunku: ', 'Ładunek inny'));
-      columns.dane.push(createLabelText('Opis innego ładunku: ', transport.OpisInnegoLadunku));
+      columns.dane.push(createLabelText(t('transport.opisLadunku'), t('transport.ladunekInny')));
+      columns.dane.push(createLabelText(t('transport.opisInnegoLadunku'), transport.OpisInnegoLadunku));
     }
   }
-  columns.dane.push(createLabelText('Jednostka opakowania: ', transport.JednostkaOpakowania));
+  columns.dane.push(createLabelText(t('transport.jednostkaOpakowania'), transport.JednostkaOpakowania));
   columns.dane.push(
     createLabelText(
-      'Data i godzina rozpoczęcia transportu: ',
+      t('transport.dataRozpoczecia'),
       getDateTimeWithoutSeconds(transport.DataGodzRozpTransportu)
     )
   );
   columns.dane.push(
     createLabelText(
-      'Data i godzina zakończenia transportu: ',
+      t('transport.dataZakonczenia'),
       getDateTimeWithoutSeconds(transport.DataGodzZakTransportu)
     )
   );
   if (columns.dane.length > 0) {
-    columns.dane.unshift(createSubHeader('Dane transportu', [0, 0, 0, 0]));
+    columns.dane.unshift(createSubHeader(t('transport.daneTransportu'), [0, 0, 0, 0]));
   }
   table.push(generateTwoColumns(columns.transport, columns.dane));
 
   table.push(generatePrzewoznik(transport.Przewoznik));
 
   if (transport.WysylkaZ?.AdresL1) {
-    columns.wysylkaZ.push(createSubHeader('Adres miejsca wysyłki', [0, 0, 0, 0]));
+    columns.wysylkaZ.push(createSubHeader(t('transport.adresMiejscaWysylki'), [0, 0, 0, 0]));
     columns.wysylkaZ.push(formatText(transport.WysylkaZ?.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaZ.push(formatText(transport.WysylkaZ?.AdresL2?._text, FormatTyp.Default));
     columns.wysylkaZ.push(formatText(Kraj[transport.WysylkaZ?.KodKraju?._text ?? ''], FormatTyp.Default));
-    columns.wysylkaZ.push(createLabelText('GLN: ', transport.WysylkaZ?.GLN?._text));
+    columns.wysylkaZ.push(createLabelText(t('transport.gln'), transport.WysylkaZ?.GLN?._text));
   }
 
   if (transport.WysylkaDo?.AdresL1) {
     columns.wysylkaDo.push(
-      createSubHeader('Adres miejsca docelowego, do którego został zlecony transport', [0, 0, 0, 0])
+      createSubHeader(t('transport.adresMiejscaDocelowego'), [0, 0, 0, 0])
     );
     columns.wysylkaDo.push(formatText(transport.WysylkaDo?.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaDo.push(formatText(transport.WysylkaDo?.AdresL2?._text, FormatTyp.Default));
     columns.wysylkaDo.push(formatText(Kraj[transport.WysylkaDo?.KodKraju?._text ?? ''], FormatTyp.Default));
-    columns.wysylkaDo.push(createLabelText('GLN: ', transport.WysylkaDo?.GLN?._text));
+    columns.wysylkaDo.push(createLabelText(t('transport.gln'), transport.WysylkaDo?.GLN?._text));
   }
 
   const wysylkaPrzez = getTable(transport.WysylkaPrzez);
@@ -92,15 +93,15 @@ export function generateTransport(transport: Transport, index?: number | null): 
     if (index) {
       columns.wysylkaPrzez.push('\n');
     }
-    columns.wysylkaPrzez.push(createSubHeader('Adres pośredni wysyłki', [0, 4, 0, 0]));
+    columns.wysylkaPrzez.push(createSubHeader(t('transport.adresPosredniWysylki'), [0, 4, 0, 0]));
     columns.wysylkaPrzez.push(formatText(adres.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaPrzez.push(formatText(adres?.AdresL2?._text, FormatTyp.Default));
     columns.wysylkaPrzez.push(formatText(Kraj[adres?.KodKraju?._text ?? ''], FormatTyp.Default));
-    columns.wysylkaPrzez.push(createLabelText('GLN: ', adres?.GLN?._text));
+    columns.wysylkaPrzez.push(createLabelText(t('transport.gln'), adres?.GLN?._text));
   });
 
   if (transport.WysylkaZ?.AdresL1 || transport.WysylkaDo?.AdresL1 || transport.WysylkaPrzez?.length) {
-    table.push(createHeader('Wysyłka'));
+    table.push(createHeader(t('transport.wysylka')));
     table.push(generateTwoColumns(columns.wysylkaZ, columns.wysylkaDo));
     table.push(generateTwoColumns(columns.wysylkaPrzez, []));
   }

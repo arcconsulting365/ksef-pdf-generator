@@ -13,6 +13,7 @@ import { HeaderDefine } from '../../../shared/types/pdf-types';
 import { FP, Umowy, WarunkiTransakcji, Zamowienia } from '../../types/fa3.types';
 import { generateTransport } from './Transport';
 import FormatTyp from '../../../shared/enums/common.enum';
+import { t } from '../../../shared/i18n';
 
 export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji | undefined): Content {
   if (!warunkiTransakcji) {
@@ -24,24 +25,24 @@ export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji |
   const zamowienia: Zamowienia[] = getTable(warunkiTransakcji?.Zamowienia);
   const partiaTowaru: FP[] = getTable(warunkiTransakcji?.NrPartiiTowaru);
   const definedHeaderUmowy: HeaderDefine[] = [
-    { name: 'DataUmowy', title: 'Data umowy', format: FormatTyp.Default },
-    { name: 'NrUmowy', title: 'Numer umowy', format: FormatTyp.Default },
+    { name: 'DataUmowy', title: t('warunkiTransakcji.dataUmowy'), format: FormatTyp.Default },
+    { name: 'NrUmowy', title: t('warunkiTransakcji.numerUmowy'), format: FormatTyp.Default },
   ];
   const definedHeaderZamowienia: HeaderDefine[] = [
-    { name: 'DataZamowienia', title: 'Data zamówienia', format: FormatTyp.Default },
-    { name: 'NrZamowienia', title: 'Numer zamówienia', format: FormatTyp.Default },
+    { name: 'DataZamowienia', title: t('warunkiTransakcji.dataZamowienia'), format: FormatTyp.Default },
+    { name: 'NrZamowienia', title: t('warunkiTransakcji.numerZamowienia'), format: FormatTyp.Default },
   ];
   const definedHeaderPartiaTowaru: HeaderDefine[] = [
-    { name: '', title: 'Numer partii towaru', format: FormatTyp.Default },
+    { name: '', title: t('warunkiTransakcji.numerPartiiTowaru'), format: FormatTyp.Default },
   ];
 
-  table.push(createHeader('Warunki transakcji', [0, 8, 0, 4]));
+  table.push(createHeader(t('warunkiTransakcji.header'), [0, 8, 0, 4]));
 
   if (umowy.length > 0) {
     const tabUmowy = getContentTable<(typeof umowy)[0]>(definedHeaderUmowy, umowy, '*', undefined, 20);
 
     if (tabUmowy.content) {
-      Kolumny.umowy = [createSubHeader('Umowa'), tabUmowy.content];
+      Kolumny.umowy = [createSubHeader(t('warunkiTransakcji.umowa')), tabUmowy.content];
     }
   }
   if (zamowienia.length > 0) {
@@ -54,7 +55,7 @@ export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji |
     );
 
     if (tabZamowienia.content && tabZamowienia.fieldsWithValue.length > 0) {
-      Kolumny.zamowienia = [createSubHeader('Zamówienie'), tabZamowienia.content];
+      Kolumny.zamowienia = [createSubHeader(t('warunkiTransakcji.zamowienie')), tabZamowienia.content];
     }
   }
 
@@ -62,10 +63,10 @@ export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji |
     table.push(generateTwoColumns(Kolumny.umowy, Kolumny.zamowienia));
   }
   if (warunkiTransakcji.WalutaUmowna?._text || warunkiTransakcji.KursUmowny?._text) {
-    table.push(createHeader('Waluta umowna i kurs umowny', [0, 8, 0, 4]));
+    table.push(createHeader(t('warunkiTransakcji.walutaUmownaIKurs'), [0, 8, 0, 4]));
 
-    table.push(createLabelText('Waluta umowna: ', warunkiTransakcji.WalutaUmowna));
-    table.push(createLabelText('Kurs umowny: ', warunkiTransakcji.KursUmowny));
+    table.push(createLabelText(t('warunkiTransakcji.walutaUmowna'), warunkiTransakcji.WalutaUmowna));
+    table.push(createLabelText(t('warunkiTransakcji.kursUmowny'), warunkiTransakcji.KursUmowny));
   }
 
   if (partiaTowaru.length > 0) {
@@ -82,13 +83,13 @@ export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji |
   }
 
   table.push(
-    createLabelText('Warunki dostawy towarów: ', warunkiTransakcji.WarunkiDostawy, FormatTyp.MarginTop4)
+    createLabelText(t('warunkiTransakcji.warunkiDostawy'), warunkiTransakcji.WarunkiDostawy, FormatTyp.MarginTop4)
   );
 
   if (warunkiTransakcji.PodmiotPosredniczacy?._text === '1') {
     table.push(
       formatText(
-        'Dostawa dokonana przez podmiot, o którym mowa w art. 22 ust. 2d ustawy. Pole dotyczy sytuacji, w której podmiot uczestniczy w transakcji łańcuchowej innej niż procedura trójstronna uproszczona, o której mowa w art. 135 ust. 1 pkt 4 ustawy',
+        t('warunkiTransakcji.podmiotPosredniczacy'),
         [FormatTyp.Label, FormatTyp.MarginTop4]
       )
     );

@@ -1,6 +1,7 @@
 import { TRodzajFaktury } from '../../../shared/consts/const';
 import { FP } from '../../types/fa1.types';
 import { getValue } from '../../../shared/PDF-functions';
+import { t } from '../../../shared/i18n';
 
 export function addMarza(
   rodzajFaktury: string | number | undefined,
@@ -19,9 +20,9 @@ export function addMarza(
 
     if (isP_PMarzy) {
       if (isVATType && !getValue(wiersz.P_12) && !getValue(wiersz.P_12_XII)) {
-        return { P_12: { _text: 'marża' } };
+        return { P_12: { _text: t('wiersze.marza') } };
       } else if (isZALType && !getValue(wiersz.P_12Z) && !getValue(wiersz.P_12Z_XII)) {
-        return { P_12Z: { _text: 'marża' } };
+        return { P_12Z: { _text: t('wiersze.marza') } };
       } else {
         return {};
       }

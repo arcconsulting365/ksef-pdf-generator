@@ -11,20 +11,21 @@ import {
 import { HeaderDefine } from '../../../shared/types/pdf-types';
 import { DodatkowyOpi, Fa } from '../../types/fa3.types';
 import FormatTyp from '../../../shared/enums/common.enum';
+import { t } from '../../../shared/i18n';
 
 export function generateDodatkoweInformacje(faVat: Fa): Content[] {
   const tpLabel: Content[] = [];
 
   if (getValue(faVat.TP) === '1') {
     tpLabel.push(
-      formatText('- Istniejące powiązania między nabywcą a dokonującym dostawy towarów lub usługodawcą')
+      formatText(t('dodatkoweInformacje.powiazania'))
     );
   }
 
   const fpLabel: Content[] = [];
   
   if (getValue(faVat.FP) === '1') {
-    fpLabel.push(formatText('- Faktura, o której mowa w art. 109 ust. 3d ustawy'));
+    fpLabel.push(formatText(t('dodatkoweInformacje.fakturaArt109')));
   }
 
   const zwrotAkcyzyLabel: Content[] = [];
@@ -32,14 +33,14 @@ export function generateDodatkoweInformacje(faVat: Fa): Content[] {
   if (getValue(faVat.ZwrotAkcyzy) === '1') {
     zwrotAkcyzyLabel.push(
       formatText(
-        '- Informacja dodatkowa związana ze zwrotem podatku akcyzowego zawartego w cenie oleju napędowego'
+        t('dodatkoweInformacje.zwrotAkcyzy')
       )
     );
   }
 
   const labels = [tpLabel, fpLabel, zwrotAkcyzyLabel].filter((el) => el.length > 0);
   const table: Content[] = [
-    ...createHeader('Dodatkowe informacje'),
+    ...createHeader(t('dodatkoweInformacje.header')),
     ...labels,
     ...generateDodatkowyOpis(faVat.DodatkowyOpis),
   ];
@@ -55,30 +56,30 @@ function generateDodatkowyOpis(fakturaZaliczkowaData: DodatkowyOpi[] | undefined
     ...item,
     lp: { _text: index + 1 },
   }));
-  const table: Content[] = createSubHeader('Dodatkowy opis');
+  const table: Content[] = createSubHeader(t('dodatkoweInformacje.dodatkowyOpis'));
 
   const fakturaZaliczkowaHeader: HeaderDefine[] = [
     {
       name: 'lp',
-      title: 'Lp.',
+      title: t('dodatkoweInformacje.lp'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'NrWiersza',
-      title: 'Numer wiersza',
+      title: t('dodatkoweInformacje.numerWiersza'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'Klucz',
-      title: 'Rodzaj informacji',
+      title: t('dodatkoweInformacje.rodzajInformacji'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'Wartosc',
-      title: 'Treść informacji',
+      title: t('dodatkoweInformacje.trescInformacji'),
       format: FormatTyp.Default,
       width: '*',
     },

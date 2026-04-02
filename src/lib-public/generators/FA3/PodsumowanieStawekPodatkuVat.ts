@@ -10,6 +10,7 @@ import {
 import FormatTyp from '../../../shared/enums/common.enum';
 import { Fa, Faktura, FP } from '../../types/fa3.types';
 import { TaxSummaryTypes } from '../../types/tax-summary.types';
+import { t } from '../../../shared/i18n';
 
 export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[] {
   const AnyP13P14_5Diff0 =
@@ -62,26 +63,26 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
   };
 
   const definedHeader: Content[] = [
-    ...[{ text: 'Lp.', style: FormatTyp.GrayBoldTitle }],
+    ...[{ text: t('podsumowanie.lp'), style: FormatTyp.GrayBoldTitle }],
     ...(AnyP13P14_5Diff0 || hasValue(faktura.Fa?.P_14_5)
       ? [
           {
-            text: 'Stawka podatku',
+            text: t('podsumowanie.stawkaPodatku'),
             style: FormatTyp.GrayBoldTitle,
           },
         ]
       : []),
-    ...(AnyP13 ? [{ text: 'Kwota netto', style: FormatTyp.GrayBoldTitle }] : []),
+    ...(AnyP13 ? [{ text: t('podsumowanie.kwotaNetto'), style: FormatTyp.GrayBoldTitle }] : []),
     ...(AnyP13P14_5Diff0 || hasValue(faktura.Fa?.P_14_5)
       ? [
           {
-            text: 'Kwota podatku',
+            text: t('podsumowanie.kwotaPodatku'),
             style: FormatTyp.GrayBoldTitle,
           },
         ]
       : []),
-    ...(AnyP13 ? [{ text: 'Kwota brutto', style: FormatTyp.GrayBoldTitle }] : []),
-    ...(AnyP_14xW ? [{ text: 'Kwota podatku PLN', style: FormatTyp.GrayBoldTitle }] : []),
+    ...(AnyP13 ? [{ text: t('podsumowanie.kwotaBrutto'), style: FormatTyp.GrayBoldTitle }] : []),
+    ...(AnyP_14xW ? [{ text: t('podsumowanie.kwotaPodatkuPLN'), style: FormatTyp.GrayBoldTitle }] : []),
   ];
 
   const widths: Content[] = [
@@ -104,12 +105,12 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
         if (item.taxRateString) {
           data.push(item.taxRateString);
         } else if (getValue(faktura.Fa?.P_13_5)) {
-          data.push('OSS');
+          data.push(t('podsumowanie.oss'));
         } else {
           data.push('');
         }
       } else if (hasValue(faktura.Fa?.P_14_5)) {
-        data.push('OSS');
+        data.push(t('podsumowanie.oss'));
       }
       if (AnyP13) {
         data.push(formatText(item.net, FormatTyp.Currency));
@@ -132,7 +133,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
   table.table.widths = [...widths] as never[];
 
   return tableBody.length
-    ? createSection([...createHeader('Podsumowanie stawek podatku', [0, 0, 0, 8]), table], false)
+    ? createSection([...createHeader(t('podsumowanie.header'), [0, 0, 0, 8]), table], false)
     : [];
 }
 
@@ -165,7 +166,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: (getNumberRounded(fa.P_13_1) + getNumberRounded(fa.P_14_1)).toFixed(2),
       tax: getNumberRounded(fa.P_14_1).toFixed(2),
       taxPLN: getNumberRounded(fa.P_14_1W).toFixed(2),
-      taxRateString: '23% lub 22%',
+      taxRateString: t('podsumowanie.stawka23lub22'),
     });
     no++;
   }
@@ -177,7 +178,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: (getNumberRounded(fa.P_13_2) + getNumberRounded(fa.P_14_2)).toFixed(2),
       tax: getNumberRounded(fa.P_14_2).toFixed(2),
       taxPLN: getNumberRounded(fa.P_14_2W).toFixed(2),
-      taxRateString: '8% lub 7%',
+      taxRateString: t('podsumowanie.stawka8lub7'),
     });
     no++;
   }
@@ -189,7 +190,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: (getNumberRounded(fa.P_13_3) + getNumberRounded(fa.P_14_3)).toFixed(2),
       tax: getNumberRounded(fa.P_14_3).toFixed(2),
       taxPLN: getNumberRounded(fa.P_14_3W).toFixed(2),
-      taxRateString: '5%',
+      taxRateString: t('podsumowanie.stawka5'),
     });
     no++;
   }
@@ -201,7 +202,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: (getNumberRounded(fa.P_13_4) + getNumberRounded(fa.P_14_4)).toFixed(2),
       tax: getNumberRounded(fa.P_14_4).toFixed(2),
       taxPLN: getNumberRounded(fa.P_14_4W).toFixed(2),
-      taxRateString: '4% lub 3%',
+      taxRateString: t('podsumowanie.stawka4lub3'),
     });
     no++;
   }
@@ -213,7 +214,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: (getNumberRounded(fa.P_13_5) + getNumberRounded(fa.P_14_5)).toFixed(2),
       tax: getNumberRounded(fa.P_14_5).toFixed(2),
       taxPLN: '',
-      taxRateString: getValue(fa.P_14_5) != 0 ? 'OSS' : '',
+      taxRateString: getValue(fa.P_14_5) != 0 ? t('podsumowanie.oss') : '',
     });
     no++;
   }
@@ -225,8 +226,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_6_1).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString:
-        '0% w przypadku sprzedaży towarów i świadczenia usług na terytorium kraju (z wyłączeniem WDT i eksportu)',
+      taxRateString: t('podsumowanie.stawka0Kraj'),
     });
     no++;
   }
@@ -238,7 +238,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_6_2).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: '0% w przypadku wewnątrzwspólnotowej dostawy towarów (WDT)',
+      taxRateString: t('podsumowanie.stawka0WDT'),
     });
     no++;
   }
@@ -250,7 +250,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_6_3).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: '0% w przypadku eksportu towarów',
+      taxRateString: t('podsumowanie.stawka0Eksport'),
     });
     no++;
   }
@@ -262,7 +262,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_7).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: 'zwolnione od podatku',
+      taxRateString: t('podsumowanie.zwolnioneOdPodatku'),
     });
     no++;
   }
@@ -274,7 +274,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_8).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: 'np z wyłączeniem art. 100 ust 1 pkt 4 ustawy',
+      taxRateString: t('podsumowanie.npBezArt100'),
     });
     no++;
   }
@@ -286,7 +286,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_9).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: 'np na podstawie art. 100 ust. 1 pkt 4 ustawy',
+      taxRateString: t('podsumowanie.npNaPodstawieArt100'),
     });
     no++;
   }
@@ -298,7 +298,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_10).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: 'odwrotne obciążenie',
+      taxRateString: t('podsumowanie.odwrotneObciazenie'),
     });
     no++;
   }
@@ -310,7 +310,7 @@ export function getSummaryTaxRate(fa: Fa): TaxSummaryTypes[] {
       gross: getNumberRounded(fa.P_13_11).toFixed(2),
       tax: '0.00',
       taxPLN: '',
-      taxRateString: 'marża',
+      taxRateString: t('podsumowanie.marza'),
     });
     no++;
   }

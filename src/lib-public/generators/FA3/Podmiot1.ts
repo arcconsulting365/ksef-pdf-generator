@@ -6,37 +6,38 @@ import { generateAdres } from './Adres';
 import { generateDaneIdentyfikacyjneTPodmiot1Dto } from './PodmiotDaneIdentyfikacyjneTPodmiot1Dto';
 import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
 import { TAXPAYER_STATUS } from '../../../shared/consts/const';
+import { t } from '../../../shared/i18n';
 
 export function generatePodmiot1(podmiot1: Podmiot1): Content[] {
-  const result: Content[] = createHeader('Sprzedawca');
+  const result: Content[] = createHeader(t('podmiot1.sprzedawca'));
 
   result.push(
-    createLabelText('Numer EORI: ', podmiot1.NrEORI),
-    createLabelText('Prefiks VAT: ', podmiot1.PrefiksPodatnika)
+    createLabelText(t('podmiot1.numerEori'), podmiot1.NrEORI),
+    createLabelText(t('podmiot1.prefiksVat'), podmiot1.PrefiksPodatnika)
   );
   if (podmiot1.DaneIdentyfikacyjne) {
     result.push(...generateDaneIdentyfikacyjneTPodmiot1Dto(podmiot1.DaneIdentyfikacyjne));
   }
 
   if (podmiot1.Adres) {
-    result.push(formatText('Adres', [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot1.Adres));
+    result.push(formatText(t('podmiot1.adres'), [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot1.Adres));
   }
   if (podmiot1.AdresKoresp) {
     result.push(
-      formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(t('podmiot1.adresKorespondencyjny'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateAdres(podmiot1.AdresKoresp)
     );
   }
   if (podmiot1.DaneKontaktowe) {
     result.push(
-      formatText('Dane kontaktowe', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(t('podmiot1.daneKontaktowe'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateDaneKontaktowe(podmiot1.DaneKontaktowe)
     );
   }
   if (hasValue(podmiot1.StatusInfoPodatnika)) {
     const statusInfo: string = TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!];
 
-    result.push(createLabelText('Status podatnika: ', statusInfo));
+    result.push(createLabelText(t('podmiot1.statusPodatnika'), statusInfo));
   }
   return result;
 }

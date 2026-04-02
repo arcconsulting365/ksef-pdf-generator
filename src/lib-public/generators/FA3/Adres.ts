@@ -2,6 +2,7 @@ import { Content } from 'pdfmake/interfaces';
 import { createLabelText, formatText, getKraj } from '../../../shared/PDF-functions';
 import { Adres } from '../../types/fa3.types';
 import FormatTyp from '../../../shared/enums/common.enum';
+import { t } from '../../../shared/i18n';
 
 export function generateAdres(adres: Adres): Content[] {
   const result: Content[] = [];
@@ -15,6 +16,6 @@ export function generateAdres(adres: Adres): Content[] {
   if (adres?.KodKraju) {
     result.push(formatText(getKraj(adres.KodKraju._text ?? ''), FormatTyp.Value));
   }
-  result.push(...createLabelText('GLN: ', adres.GLN));
+  result.push(...createLabelText(t('adres.gln'), adres.GLN));
   return result;
 }

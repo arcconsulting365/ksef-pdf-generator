@@ -16,6 +16,7 @@ import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
 import { Podmiot1DaneKontaktowe, Podmiot3 } from '../../types/fa3.types';
 import { Podmiot2K } from '../../types/fa2.types';
 import { Adres } from '../../types/fa1.types';
+import { t } from '../../../shared/i18n';
 
 export function generateDaneIdentyfikacyjneTPodmiot3Dto(
   podmiot2KDto: Podmiot3Podmiot2KDto | undefined,
@@ -30,7 +31,7 @@ export function generateDaneIdentyfikacyjneTPodmiot3Dto(
   const result: Content[] = [];
 
   result.push(generateLine());
-  result.push(createHeader(`Podmiot inny ${index + 1}`));
+  result.push(createHeader(t('podmiot3.header', { index: index + 1 })));
 
   if (
     hasValue(podmiot1.NrEORI) ||
@@ -39,21 +40,21 @@ export function generateDaneIdentyfikacyjneTPodmiot3Dto(
     hasValue(podmiot1?.Udzial)
   ) {
     result.push(
-      ...createHeader('Dane identyfikacyjne'),
-      createLabelText('Numer EORI: ', podmiot1.NrEORI),
-      createLabelText('Rola: ', getRolaString(podmiot1.Rola, 3)),
-      createLabelText('Rola inna: ', podmiot1.OpisRoli),
-      createLabelText('Udział: ', podmiot1.Udzial, FormatTyp.Percentage)
+      ...createHeader(t('podmiot3.daneIdentyfikacyjne')),
+      createLabelText(t('podmiot3.numerEori'), podmiot1.NrEORI),
+      createLabelText(t('podmiot3.rola'), getRolaString(podmiot1.Rola, 3)),
+      createLabelText(t('podmiot3.rolaInna'), podmiot1.OpisRoli),
+      createLabelText(t('podmiot3.udzial'), podmiot1.Udzial, FormatTyp.Percentage)
     );
   }
 
   if (podmiot1DaneKontaktowe.length > 0 || hasValue(podmiot1.NrKlienta)) {
     result.push(generateDaneKontaktowe(podmiot1.DaneKontaktowe ?? []));
-    result.push(createLabelText('Numer klienta: ', podmiot1.NrKlienta));
+    result.push(createLabelText(t('podmiot3.numerKlienta'), podmiot1.NrKlienta));
   }
   const columns1: Content[] = [
-    ...createHeader('Treść korygowana'),
-    createLabelText('Identyfikator nabywcy: ', podmiot1K?.IDNabywcy),
+    ...createHeader(t('podmiot1.trescKorygowana')),
+    createLabelText(t('podmiot3.identyfikatorNabywcy'), podmiot1K?.IDNabywcy),
   ];
 
   if (podmiot1K?.DaneIdentyfikacyjne) {
@@ -63,8 +64,8 @@ export function generateDaneIdentyfikacyjneTPodmiot3Dto(
     columns1.push(generatePodmiotAdres(podmiot1K.Adres));
   }
   const columns2: Content[] = [
-    ...createHeader('Treść korygująca'),
-    createLabelText('Identyfikator nabywcy: ', podmiot1?.IDNabywcy),
+    ...createHeader(t('podmiot1.trescKorygujaca')),
+    createLabelText(t('podmiot3.identyfikatorNabywcy'), podmiot1?.IDNabywcy),
   ];
 
   if (podmiot1?.DaneIdentyfikacyjne) {
@@ -75,7 +76,7 @@ export function generateDaneIdentyfikacyjneTPodmiot3Dto(
   }
 
   if (podmiot1.AdresKoresp != null) {
-    columns2.push(generatePodmiotAdres(podmiot1.AdresKoresp, 'Adres korespondencyjny'));
+    columns2.push(generatePodmiotAdres(podmiot1.AdresKoresp, t('podmiot3.adresKorespondencyjny2')));
   }
   result.push(generateTwoColumns(columns1, columns2));
   return result;

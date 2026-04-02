@@ -13,6 +13,7 @@ import { TRodzajFaktury } from '../../../shared/consts/const';
 import { Zamowienie } from '../../types/fa3.types';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum';
 import { ZamowienieKorekta } from '../../enums/invoice.enums';
+import { t } from '../../../shared/i18n';
 
 export function generateZamowienie(
   orderData: Zamowienie | undefined,
@@ -35,41 +36,41 @@ export function generateZamowienie(
     return el;
   });
   const definedHeaderLp: HeaderDefine[] = [
-    { name: 'NrWierszaZam', title: 'Lp.', format: FormatTyp.Default, width: 'auto' },
+    { name: 'NrWierszaZam', title: t('zamowienie.lp'), format: FormatTyp.Default, width: 'auto' },
   ];
   const definedHeader1: HeaderDefine[] = [
-    { name: 'UU_ID', title: 'Unikalny numer wiersza', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_7Z', title: 'Nazwa towaru lub usługi', format: FormatTyp.Default, width: '*' },
+    { name: 'UU_ID', title: t('zamowienie.unikalnyNumer'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_7Z', title: t('zamowienie.nazwaTowaru'), format: FormatTyp.Default, width: '*' },
     {
       name: 'P_9AZ',
-      title: 'Cena jedn. netto',
+      title: t('zamowienie.cenaJednostkaNetto'),
       format: formatAbs,
       width: 'auto',
     },
-    { name: 'P_8BZ', title: 'Ilość', format: FormatTyp.Right, width: 'auto' },
-    { name: 'P_8AZ', title: 'Miara', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_12Z', title: 'Stawka podatku', format: FormatTyp.Default, width: 'auto' },
-    { name: 'P_12Z_XII', title: 'Stawka podatku OSS', format: FormatTyp.Percentage, width: 'auto' },
+    { name: 'P_8BZ', title: t('zamowienie.ilosc'), format: FormatTyp.Right, width: 'auto' },
+    { name: 'P_8AZ', title: t('zamowienie.miara'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_12Z', title: t('zamowienie.stawkaPodatku'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'P_12Z_XII', title: t('zamowienie.stawkaPodatkuOSS'), format: FormatTyp.Percentage, width: 'auto' },
     {
       name: 'P_12Z_Zal_15',
-      title: 'Znacznik dla towaru lub usługi z zał. nr 15 do ustawy',
+      title: t('zamowienie.znacznikZal15'),
       format: FormatTyp.Default,
       width: 'auto',
     },
-    { name: 'P_11NettoZ', title: 'Wartość sprzedaży netto', format: formatAbs, width: 'auto' },
-    { name: 'P_11VatZ', title: 'Kwota podatku', format: formatAbs, width: 'auto' },
+    { name: 'P_11NettoZ', title: t('zamowienie.wartoscNetto'), format: formatAbs, width: 'auto' },
+    { name: 'P_11VatZ', title: t('zamowienie.kwotaPodatku'), format: formatAbs, width: 'auto' },
   ];
   const definedHeader2: HeaderDefine[] = [
-    { name: 'UU_IDZ', title: 'Numer umowy / Zamów.', format: FormatTyp.Default, width: 'auto' },
-    { name: 'GTINZ', title: 'GTIN', format: FormatTyp.Default, width: 'auto' },
-    { name: 'PKWiUZ', title: 'PKWiU', format: FormatTyp.Default, width: 'auto' },
-    { name: 'CNZ', title: 'CN', format: FormatTyp.Default, width: 'auto' },
-    { name: 'PKOBZ', title: 'PKOB', format: FormatTyp.Default, width: 'auto' },
-    { name: 'KwotaAkcyzyZ', title: 'Kwota podatku akcyzowego', format: FormatTyp.Currency, width: 'auto' },
-    { name: 'GTUZ', title: 'GTU', format: FormatTyp.Default, width: 'auto' },
-    { name: 'ProceduraZ', title: 'Oznaczenia dotyczące procedur', format: FormatTyp.Default, width: '*' },
-    { name: 'IndeksZ', title: 'Indeks', format: FormatTyp.Default, width: 'auto' },
-    { name: 'StanPrzedZ', title: 'Stan przed', format: FormatTyp.Boolean, width: 'auto' },
+    { name: 'UU_IDZ', title: t('zamowienie.numerUmowyZamowienia'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'GTINZ', title: t('zamowienie.gtin'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'PKWiUZ', title: t('zamowienie.pkwiu'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'CNZ', title: t('zamowienie.cn'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'PKOBZ', title: t('zamowienie.pkob'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'KwotaAkcyzyZ', title: t('zamowienie.kwotaPodatkuAkcyzowego'), format: FormatTyp.Currency, width: 'auto' },
+    { name: 'GTUZ', title: t('zamowienie.gtu'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'ProceduraZ', title: t('zamowienie.oznaczeniaProcedur'), format: FormatTyp.Default, width: '*' },
+    { name: 'IndeksZ', title: t('zamowienie.indeks'), format: FormatTyp.Default, width: 'auto' },
+    { name: 'StanPrzedZ', title: t('zamowienie.stanPrzed'), format: FormatTyp.Boolean, width: 'auto' },
   ];
 
   let content = getContentTable<(typeof orderTable)[0]>(
@@ -101,13 +102,13 @@ export function generateZamowienie(
       table.push(content.content);
     }
   }
-  const ceny = `Faktura wystawiona w cenach ${content.fieldsWithValue.includes('P_11') ? 'netto' : 'brutto'} w walucie ${KodWaluty}`;
+  const ceny = t('zamowienie.fakturaWCenach', { ceny: content.fieldsWithValue.includes('P_11') ? t('szczegoly.netto') : t('szczegoly.brutto'), waluta: KodWaluty });
   let opis: Content = '';
 
   if (Number(p_15) > 0 && rodzajFaktury == TRodzajFaktury.ZAL) {
     opis = {
       stack: createLabelTextArray([
-        { value: 'Otrzymana kwota zapłaty (zaliczki): ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('zamowienie.otrzymanaKwotaZaliczki'), formatTyp: FormatTyp.LabelGreater },
         { value: p_15, formatTyp: FormatTyp.CurrencyGreater },
       ]),
       alignment: Position.RIGHT,
@@ -120,7 +121,7 @@ export function generateZamowienie(
   ) {
     opis = {
       stack: createLabelTextArray([
-        { value: 'Kwota należności ogółem: ', formatTyp: FormatTyp.LabelGreater },
+        { value: t('zamowienie.kwotaNaleznosci'), formatTyp: FormatTyp.LabelGreater },
         { value: p_15, formatTyp: FormatTyp.CurrencyGreater },
       ]),
       alignment: Position.RIGHT,
@@ -134,7 +135,7 @@ export function generateZamowienie(
         ceny,
         {
           text: [
-            'Wartość zamówienia lub umowy z uwzględnieniem kwoty podatku: ',
+            t('zamowienie.wartoscZamowienia'),
             formatText(orderData.WartoscZamowienia?._text, FormatTyp.Currency),
           ],
           marginBottom: 4,

@@ -15,6 +15,7 @@ import { Platnosc } from '../../types/fa3.types';
 import { getFormaPlatnosciString } from '../../../shared/generators/common/functions';
 import { generujRachunekBankowy } from './RachunekBankowy';
 import FormatTyp from '../../../shared/enums/common.enum';
+import { t } from '../../../shared/i18n';
 
 export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   if (!platnosc) {
@@ -25,54 +26,54 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   const zaplataCzesciowaHeader: HeaderDefine[] = [
     {
       name: 'Termin',
-      title: 'Termin płatności',
+      title: t('platnosc.terminPlatnosci'),
       format: FormatTyp.Default,
     },
   ];
 
   if (terminPlatnosci.some((termin) => termin.TerminOpis)) {
-    zaplataCzesciowaHeader.push({ name: 'TerminOpis', title: 'Opis płatności', format: FormatTyp.Default });
+    zaplataCzesciowaHeader.push({ name: 'TerminOpis', title: t('platnosc.opisPlatnosci'), format: FormatTyp.Default });
   }
 
   const zaplataCzesciowaNaglowek: HeaderDefine[] = [
     {
       name: 'DataZaplatyCzesciowej',
-      title: 'Data zapłaty częściowej',
+      title: t('platnosc.dataZaplatyCzesciowej'),
       format: FormatTyp.Default,
     },
-    { name: 'KwotaZaplatyCzesciowej', title: 'Kwota zapłaty częściowej', format: FormatTyp.Currency },
-    { name: 'FormaPlatnosci', title: 'Forma płatności', format: FormatTyp.FormOfPayment },
+    { name: 'KwotaZaplatyCzesciowej', title: t('platnosc.kwotaZaplatyCzesciowej'), format: FormatTyp.Currency },
+    { name: 'FormaPlatnosci', title: t('platnosc.formaPlatnosci'), format: FormatTyp.FormOfPayment },
   ];
 
-  const table: Content[] = [generateLine(), ...createHeader('Płatność')];
+  const table: Content[] = [generateLine(), ...createHeader(t('platnosc.header'))];
 
   //  TODO: Add to FA2 and FA1? (KSEF20-15289)
   if (getValue(platnosc.Zaplacono) === '1') {
-    table.push(createLabelText('Informacja o płatności: ', 'Zapłacono'));
-    table.push(createLabelText('Data zapłaty: ', platnosc.DataZaplaty, FormatTyp.Date));
+    table.push(createLabelText(t('platnosc.informacjaOPlatnosci'), t('platnosc.zaplacono')));
+    table.push(createLabelText(t('platnosc.dataZaplaty'), platnosc.DataZaplaty, FormatTyp.Date));
   } else if (
     getValue(platnosc.ZnacznikZaplatyCzesciowej) === '1' ||
     getValue(platnosc.ZnacznikZaplatyCzesciowej) === '2'
   ) {
-    table.push(createLabelText('Informacja o płatności: ', 'Zapłata częściowa'));
+    table.push(createLabelText(t('platnosc.informacjaOPlatnosci'), t('platnosc.zaplataCzesciowa')));
     table.push(
       createLabelText(
-        'Informacja o płatności (kontynuacja): ',
+        t('platnosc.informacjaOPlatnosciKontynuacja'),
         getValue(platnosc.ZnacznikZaplatyCzesciowej) === '1'
-          ? 'Zapłacono w części'
-          : 'Zapłacono całość w częściach'
+          ? t('platnosc.zaplaconoWCzesci')
+          : t('platnosc.zaplaconoCalosc')
       )
     );
   } else {
-    table.push(createLabelText('Informacja o płatności: ', 'Brak zapłaty'));
+    table.push(createLabelText(t('platnosc.informacjaOPlatnosci'), t('platnosc.brakZaplaty')));
   }
 
   if (hasValue(platnosc.FormaPlatnosci)) {
-    table.push(createLabelText('Forma płatności: ', getFormaPlatnosciString(platnosc.FormaPlatnosci)));
+    table.push(createLabelText(t('platnosc.formaLabel'), getFormaPlatnosciString(platnosc.FormaPlatnosci)));
   } else {
     if (platnosc.OpisPlatnosci?._text) {
-      table.push(createLabelText('Forma płatności: ', 'Płatność inna'));
-      table.push(createLabelText('Opis płatności innej: ', platnosc.OpisPlatnosci));
+      table.push(createLabelText(t('platnosc.formaLabel'), t('platnosc.platnoscInna')));
+      table.push(createLabelText(t('platnosc.opisPlatnosciInnej'), platnosc.OpisPlatnosci));
     }
   }
 
@@ -122,21 +123,21 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   }
 
   if (platnosc.LinkDoPlatnosci) {
-    table.push(formatText('Link do płatności bezgotówkowej: ', FormatTyp.Label));
+    table.push(formatText(t('platnosc.linkDoPlatnosci'), FormatTyp.Label));
     table.push({
       text: formatText(platnosc.LinkDoPlatnosci._text, FormatTyp.Link),
       link: formatText(platnosc.LinkDoPlatnosci._text, FormatTyp.Link),
     } as ContentText);
   }
   if (platnosc.IPKSeF?._text) {
-    table.push(createLabelText('Identyfikator płatności Krajowego Systemu e-Faktur: ', platnosc.IPKSeF));
+    table.push(createLabelText(t('platnosc.identyfikatorKSeF'), platnosc.IPKSeF));
   }
 
   const rachunekBankowy: Content[][] = getTable(platnosc.RachunekBankowy).map((rachunek) =>
-    generujRachunekBankowy([rachunek], 'Numer rachunku bankowego')
+    generujRachunekBankowy([rachunek], t('platnosc.numerRachunku'))
   );
   const rachunekBankowyFaktora: Content[][] = getTable(platnosc.RachunekBankowyFaktora).map((rachunek) =>
-    generujRachunekBankowy([rachunek], 'Numer rachunku bankowego faktora')
+    generujRachunekBankowy([rachunek], t('platnosc.numerRachunkuFaktora'))
   );
   const rachunkiBankowe: Content[][] = [...rachunekBankowy, ...rachunekBankowyFaktora];
 
@@ -149,9 +150,9 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   }
 
   if (platnosc.Skonto) {
-    table.push(createHeader('Skonto', [0, 0]));
-    table.push(createLabelText('Warunki skonta: ', platnosc.Skonto.WarunkiSkonta));
-    table.push(createLabelText('Wysokość skonta: ', platnosc.Skonto.WysokoscSkonta));
+    table.push(createHeader(t('platnosc.skonto'), [0, 0]));
+    table.push(createLabelText(t('platnosc.warunkiSkonta'), platnosc.Skonto.WarunkiSkonta));
+    table.push(createLabelText(t('platnosc.wysokoscSkonta'), platnosc.Skonto.WysokoscSkonta));
   }
   return table;
 }
