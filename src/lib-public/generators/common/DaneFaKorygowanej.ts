@@ -30,7 +30,7 @@ export function generateDaneFaKorygowanej(invoice?: Fa1 | Fa2 | Fa3): Content[] 
       );
     }
     if (invoice.TypKorekty?._text) {
-      firstColumn.push(createLabelText(t('daneFaKorygowanej.typSkutku'), TypKorekty[invoice.TypKorekty._text]));
+      firstColumn.push(createLabelText(t('daneFaKorygowanej.typSkutku'), t(TypKorekty[invoice.TypKorekty._text])));
     }
 
     if (firstColumn.length) {

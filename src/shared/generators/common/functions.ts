@@ -11,6 +11,7 @@ import {
   TypRachunkowWlasnych,
 } from '../../consts/const';
 import { FP as FP2 } from '../../../lib-public/types/fa2.types';
+import { t } from '../../i18n';
 
 export function getRolaString(rola: FP2 | undefined, FA: 1 | 2 | 3): string {
   if (!rola || !rola._text) {
@@ -18,11 +19,11 @@ export function getRolaString(rola: FP2 | undefined, FA: 1 | 2 | 3): string {
   }
   switch (FA) {
     case 1:
-      return FA1RolaPodmiotu3[rola._text as keyof typeof FA1RolaPodmiotu3];
+      return t(FA1RolaPodmiotu3[rola._text as keyof typeof FA1RolaPodmiotu3]);
     case 2:
-      return FA2RolaPodmiotu3[rola._text as keyof typeof FA2RolaPodmiotu3];
+      return t(FA2RolaPodmiotu3[rola._text as keyof typeof FA2RolaPodmiotu3]);
     case 3:
-      return FA3RolaPodmiotu3[rola._text as keyof typeof FA3RolaPodmiotu3];
+      return t(FA3RolaPodmiotu3[rola._text as keyof typeof FA3RolaPodmiotu3]);
   }
 }
 
@@ -32,11 +33,11 @@ export function getRolaUpowaznionegoString(rola: FP2 | undefined, FA: 1 | 2 | 3)
   }
   switch (FA) {
     case 1:
-      return TRolaPodmiotuUpowaznionegoFA1[rola._text].split('-')[0] ?? '';
+      return t(TRolaPodmiotuUpowaznionegoFA1[rola._text]);
     case 2:
-      return TRolaPodmiotuUpowaznionegoFA2[rola._text].split('-')[0] ?? '';
+      return t(TRolaPodmiotuUpowaznionegoFA2[rola._text]);
     case 3:
-      return TRolaPodmiotuUpowaznionegoFA3[rola._text].split('-')[0] ?? '';
+      return t(TRolaPodmiotuUpowaznionegoFA3[rola._text]);
   }
 }
 
@@ -44,28 +45,28 @@ export function getFormaPlatnosciString(formaPlatnosci: FP2 | undefined): string
   if (!formaPlatnosci || !formaPlatnosci._text) {
     return '';
   }
-  return FormaPlatnosci[formaPlatnosci._text as keyof typeof FormaPlatnosci] ?? '';
+  return t(FormaPlatnosci[formaPlatnosci._text as keyof typeof FormaPlatnosci]) ?? '';
 }
 
 export function getRodzajTransportuString(rodzajTransportu: FP2 | undefined): string {
   if (!rodzajTransportu || !rodzajTransportu._text) {
     return '';
   }
-  return RodzajTransportu[rodzajTransportu._text as keyof typeof RodzajTransportu] ?? '';
+  return t(RodzajTransportu[rodzajTransportu._text as keyof typeof RodzajTransportu]) ?? '';
 }
 
 export function getOpisTransportuString(opisTransportu: FP2 | undefined): string {
   if (!opisTransportu || !opisTransportu._text) {
     return '';
   }
-  return TypLadunku[opisTransportu._text as keyof typeof TypLadunku] ?? '';
+  return t(TypLadunku[opisTransportu._text as keyof typeof TypLadunku]) ?? '';
 }
 
 export function getTypRachunkowWlasnych(typRachonkowWlasnych: FP2 | undefined): string {
   if (!typRachonkowWlasnych || !typRachonkowWlasnych._text) {
     return '';
   }
-  return TypRachunkowWlasnych[typRachonkowWlasnych._text as keyof typeof TypRachunkowWlasnych] ?? '';
+  return t(TypRachunkowWlasnych[typRachonkowWlasnych._text as keyof typeof TypRachunkowWlasnych]) ?? '';
 }
 
 export function formatDateTime(data?: string, withoutSeconds?: boolean, withoutTime?: boolean): string {

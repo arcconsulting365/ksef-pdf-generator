@@ -35,7 +35,7 @@ export function generatePodmiot1(podmiot1: Podmiot1): Content[] {
     );
   }
   if (hasValue(podmiot1.StatusInfoPodatnika)) {
-    const statusInfo: string = TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!];
+    const statusInfo: string = t(TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!]);
 
     result.push(createLabelText(t('podmiot1.statusPodatnika'), statusInfo));
   }

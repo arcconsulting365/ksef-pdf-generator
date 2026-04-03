@@ -23,6 +23,7 @@ import { FP } from '../lib-public/types/fa3.types';
 import { DifferentValues, FilteredKeysOfValues, TypesOfValues } from './types/universal.types';
 import { CreateLabelTextData } from './types/additional-data.types';
 import FormatTyp, { Answer, Position } from './enums/common.enum';
+import { t } from './i18n';
 
 export function formatText(
   value: number | string | undefined | null,
@@ -117,7 +118,7 @@ function formatValue(
       result.text = getFormaPlatnosciString({ _text: value as string });
       break;
     case FormatTyp.Boolean:
-      result.text = (value as string) === '1' ? Answer.TRUE : Answer.FALSE;
+      result.text = (value as string) === '1' ? t(Answer.TRUE) : t(Answer.FALSE);
       break;
     case FormatTyp.Percentage:
       result.text = `${value}%`;
@@ -447,7 +448,7 @@ export function getContentTable<T>(
 
       return formatText(
         makeBreakable(
-          header.mappingData && value ? header.mappingData[value] : (value ?? ''),
+          header.mappingData && value ? t(header.mappingData[value]) : (value ?? ''),
           wordBreak ?? 40
         ),
         header.format ?? FormatTyp.Default,
@@ -511,7 +512,7 @@ export function verticalSpacing(height: number): ContentText {
 
 export function getKraj(code: string): string {
   if (Kraj[code]) {
-    return Kraj[code];
+    return t(Kraj[code]);
   }
   return code;
 }
@@ -531,11 +532,12 @@ export function getTStawkaPodatku(code: string, version: 1 | 2 | 3, P_PMarzy?: s
       break;
   }
   if (!code && P_PMarzy === '1') {
-    return 'marża';
+    return t('dict.stawkaPodatku.marza');
   }
 
   if (TStawkaPodatkuVersioned[code]) {
-    return TStawkaPodatkuVersioned[code];
+    const val = TStawkaPodatkuVersioned[code];
+    return val.startsWith('dict.') ? t(val) : val;
   }
   return code;
 }

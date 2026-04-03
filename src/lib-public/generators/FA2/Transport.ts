@@ -18,6 +18,7 @@ import {
   getRodzajTransportuString,
 } from '../../../shared/generators/common/functions';
 import { generatePrzewoznik } from './Przewoznik';
+import { t } from '../../../shared/i18n';
 
 export function generateTransport(transport: Transport, index?: number | null): Content {
   const table: Content[] = [];
@@ -72,7 +73,7 @@ export function generateTransport(transport: Transport, index?: number | null): 
     columns.wysylkaZ.push(createSubHeader('Adres miejsca wysyłki', [0, 0, 0, 0]));
     columns.wysylkaZ.push(formatText(transport.WysylkaZ?.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaZ.push(formatText(transport.WysylkaZ?.AdresL2?._text, FormatTyp.Default));
-    columns.wysylkaZ.push(formatText(Kraj[transport.WysylkaZ?.KodKraju?._text ?? ''], FormatTyp.Default));
+    columns.wysylkaZ.push(formatText(t(Kraj[transport.WysylkaZ?.KodKraju?._text ?? '']), FormatTyp.Default));
     columns.wysylkaZ.push(createLabelText('GLN: ', transport.WysylkaZ?.GLN?._text));
   }
 
@@ -82,7 +83,7 @@ export function generateTransport(transport: Transport, index?: number | null): 
     );
     columns.wysylkaDo.push(formatText(transport.WysylkaDo?.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaDo.push(formatText(transport.WysylkaDo?.AdresL2?._text, FormatTyp.Default));
-    columns.wysylkaDo.push(formatText(Kraj[transport.WysylkaDo?.KodKraju?._text ?? ''], FormatTyp.Default));
+    columns.wysylkaDo.push(formatText(t(Kraj[transport.WysylkaDo?.KodKraju?._text ?? '']), FormatTyp.Default));
     columns.wysylkaDo.push(createLabelText('GLN: ', transport.WysylkaDo?.GLN?._text));
   }
 
@@ -95,7 +96,7 @@ export function generateTransport(transport: Transport, index?: number | null): 
     columns.wysylkaPrzez.push(createSubHeader('Adres pośredni wysyłki', [0, 4, 0, 0]));
     columns.wysylkaPrzez.push(formatText(adres.AdresL1?._text, FormatTyp.Default));
     columns.wysylkaPrzez.push(formatText(adres?.AdresL2?._text, FormatTyp.Default));
-    columns.wysylkaPrzez.push(formatText(Kraj[adres?.KodKraju?._text ?? ''], FormatTyp.Default));
+    columns.wysylkaPrzez.push(formatText(t(Kraj[adres?.KodKraju?._text ?? '']), FormatTyp.Default));
     columns.wysylkaPrzez.push(createLabelText('GLN: ', adres?.GLN?._text));
   });
 

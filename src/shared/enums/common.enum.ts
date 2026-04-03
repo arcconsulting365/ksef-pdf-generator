@@ -4,8 +4,8 @@ export enum Position {
 }
 
 export enum Answer {
-  TRUE = 'Tak',
-  FALSE = 'Nie',
+  TRUE = 'dict.answer.true',
+  FALSE = 'dict.answer.false',
 }
 
 export enum FormatTyp {

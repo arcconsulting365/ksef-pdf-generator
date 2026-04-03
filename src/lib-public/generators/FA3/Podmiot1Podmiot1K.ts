@@ -35,7 +35,7 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1, podmiot1K: Podmiot
     }
   }
   if (podmiot1.StatusInfoPodatnika) {
-    const statusInfo: string = TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!];
+    const statusInfo: string = t(TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!]);
 
     firstColumn.push(createLabelText(t('podmiot1.statusPodatnika'), statusInfo));
   }

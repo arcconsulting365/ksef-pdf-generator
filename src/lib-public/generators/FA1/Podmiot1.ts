@@ -13,6 +13,7 @@ import { generatePodmiotAdres } from './PodmiotAdres';
 import { generateDaneIdentyfikacyjne } from './PodmiotDaneIdentyfikacyjne';
 import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
 import { TAXPAYER_STATUS } from '../../../shared/consts/const';
+import { t } from '../../../shared/i18n';
 
 export function generatePodmiot1(podmiot1: Podmiot1): Content[] {
   const result: Content[] = createHeader('Sprzedawca');
@@ -40,7 +41,7 @@ export function generatePodmiot1(podmiot1: Podmiot1): Content[] {
     );
   }
   if (hasValue(podmiot1.StatusInfoPodatnika)) {
-    const statusInfo: string = TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!];
+    const statusInfo: string = t(TAXPAYER_STATUS[getValue(podmiot1.StatusInfoPodatnika)!]);
 
     result.push(createLabelText('Status podatnika: ', statusInfo));
   }
