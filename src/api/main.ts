@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 
 app.post('/api/generate', async (req, res) => {
   try {
-    const { xml, nrKSeF, qrCode, qrCode2, isMobile } = req.body;
+    const { xml, nrKSeF, qrCode, qr2Code, isMobile } = req.body;
 
     if (!xml) {
       return res.status(400).json({ error: 'Missing xml parameter' });
@@ -40,7 +40,7 @@ app.post('/api/generate', async (req, res) => {
       xmlContent: xml,
       nrKSeF,
       qrCode,
-      qrCode2,
+      qr2Code,
       isMobile
     });
 

@@ -5,12 +5,12 @@ export interface GeneratePdfData {
   xmlContent: string;
   nrKSeF?: string;
   qrCode?: string;
-  qrCode2?: string;
+  qr2Code?: string;
   isMobile?: boolean;
 }
 
 export async function generatePdfFromData(data: GeneratePdfData): Promise<Buffer> {
-  const { xmlContent, nrKSeF, qrCode, qrCode2, isMobile } = data;
+  const { xmlContent, nrKSeF, qrCode, qr2Code, isMobile } = data;
 
   if (!xmlContent) {
     throw new Error('Missing XML content');
@@ -23,7 +23,7 @@ export async function generatePdfFromData(data: GeneratePdfData): Promise<Buffer
   const additionalData: AdditionalDataTypes = {
     nrKSeF,
     qrCode,
-    qrCode2,
+    qr2Code,
     isMobile
   };
 

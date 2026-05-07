@@ -24,6 +24,7 @@ export default defineConfig({
     alias: {
       '@lib-public': path.resolve(__dirname, 'src/lib-public'),
       '@lib-private': path.resolve(__dirname, 'src/lib-private'),
+      '@shared': path.resolve(__dirname, 'src/shared'),
     },
   },
 });

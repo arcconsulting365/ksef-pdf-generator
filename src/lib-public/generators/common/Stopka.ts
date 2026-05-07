@@ -140,7 +140,9 @@ function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
             stack: [
               qrCode,
               {
-                text: additionalData.qr2Code ? i18n.t('invoice.qr1.offline') : additionalData.nrKSeF,
+                text: additionalData.qr2Code ?
+                  formatText(i18n.t('invoice.qr1.offline'), FormatTyp.Label) :
+                  formatText(additionalData.nrKSeF, FormatTyp.Link),
                 alignment: 'center',
                 margin: [0, 8, 0, 0],
               },
