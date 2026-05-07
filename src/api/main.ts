@@ -30,10 +30,14 @@ app.use((req, res, next) => {
 
 app.post('/api/generate', async (req, res) => {
   try {
-    const { xml, nrKSeF, qrCode, qr2Code, isMobile } = req.body;
+    const { xml, nrKSeF, qrCode, qr2Code, isMobile, lang } = req.body;
 
     if (!xml) {
       return res.status(400).json({ error: 'Missing xml parameter' });
+    }
+
+    if (lang !== undefined && lang !== 'pl' && lang !== 'en') {
+      return res.status(400).json({ error: "Invalid lang parameter, expected 'pl' or 'en'" });
     }
 
     const buffer = await generatePdfFromData({
@@ -41,7 +45,8 @@ app.post('/api/generate', async (req, res) => {
       nrKSeF,
       qrCode,
       qr2Code,
-      isMobile
+      isMobile,
+      lang
     });
 
     res.setHeader('Content-Type', 'application/pdf');

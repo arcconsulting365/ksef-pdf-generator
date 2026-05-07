@@ -31,7 +31,7 @@ export async function generateInvoice(
 
   let pdf: TCreatedPdf;
 
-  await initI18next();
+  await initI18next(additionalData?.lang);
 
   return new Promise((resolve): void => {
     switch (wersja) {

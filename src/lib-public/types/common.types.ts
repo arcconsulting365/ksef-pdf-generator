@@ -28,4 +28,5 @@ export interface AdditionalDataTypes {
   qr2Code?: string;
   isMobile?: boolean;
   watermark?: string;
+  lang?: 'pl' | 'en';
 }
