@@ -612,7 +612,7 @@
     "qr2": {
       "certificate": "CERTIFICATE",
       "description": "Can't scan the code from the image? Click the verification link to verify the invoice issuer!",
-      "header": "Verify the invoice supplier"
+      "header": "Verify the supplier of the invoice"
     },
     "registers": {
       "accountDescription": "Account description",
@@ -654,7 +654,7 @@
       "lp": "No.",
       "lumpSumTaxRefund": "Lump-sum tax refund amount: ",
       "name": "Name",
-      "netSalesValue": "Net sales value",
+      "netSalesValue": "Net amount",
       "netUnitPrice": "Net unit price",
       "ossTaxRate": "OSS tax rate",
       "overallCost": "Total amount due: ",
@@ -675,7 +675,7 @@
       "unit": "Unit",
       "unitPrice": "Unit price",
       "valueZZP": "Value with ZZP",
-      "vatSalesValue": "VAT sales value",
+      "vatSalesValue": "VAT amount",
       "wageZZP": "ZZP rate"
     },
     "settlement": {
